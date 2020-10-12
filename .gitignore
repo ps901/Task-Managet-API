@@ -1,0 +1,4 @@
+node_modules/
+Notes/
+mongodb.js
+src/db/mongoose.js
