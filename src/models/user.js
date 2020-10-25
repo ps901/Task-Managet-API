@@ -51,7 +51,10 @@ const userSchema = new mongoose.Schema( {
             type: String, 
             required: true
         }
-    }]
+    }], 
+    avatar: {
+        type: Buffer
+    }
 }, {
     timestamps: true
 });
@@ -66,18 +69,20 @@ userSchema.virtual("tasks", {
 // we use this keyword to get the user
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
-    const token = jwt.sign({id: user._id.toString()}, "perkbai");
+    const token = jwt.sign({id: user._id.toString()}, process.env.JWT_SECRET);
     user.tokens.push({token});
     await user.save();
     return token;
 }
 
+//we send only the necessary things to send not like password and stuff
 userSchema.methods.toJSON = function() {
     const user = this;
     const userObject = user.toObject(); //removes all mongoose methods like save
 
     delete userObject.password;
     delete userObject.tokens;
+    delete userObject.avatar;
 
     return userObject;
 }

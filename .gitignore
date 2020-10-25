@@ -1,4 +1,6 @@
-node_modules/
-Notes/
+node_modules
+Notes
 mongodb.js
 src/db/mongoose.js
+playground
+config
